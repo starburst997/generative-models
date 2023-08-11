@@ -209,7 +209,7 @@ def init_embedder_options(keys, init_dict, prompt=None, negative_prompt=None):
 def perform_save_locally(save_path, samples):
     os.makedirs(os.path.join(save_path), exist_ok=True)
     base_count = len(os.listdir(os.path.join(save_path)))
-    samples = embed_watemark(samples)
+    #samples = embed_watemark(samples)
     for sample in samples:
         sample = 255.0 * rearrange(sample.cpu().numpy(), "c h w -> h w c")
         Image.fromarray(sample.astype(np.uint8)).save(
@@ -736,7 +736,8 @@ def do_img2img(
                 if filter is not None:
                     samples = filter(samples)
 
-                grid = embed_watemark(torch.stack([samples]))
+                #grid = embed_watemark(torch.stack([samples]))
+                grid = torch.stack([samples])
                 grid = rearrange(grid, "n b c h w -> (n h) (b w) c")
                 outputs.image(grid.cpu().numpy())
                 if return_latents:
